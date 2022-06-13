@@ -9,7 +9,7 @@
  */
 int _printf(const char *format, ...)
 {
-	unsigned int a = 0, abf = 0, len = 0;
+	unsigned int a = 0, ibuf = 0, len = 0;
 	va_list arguments;
 	int (*function)(va_list, char *, unsigned int);
 	char *buffer;
@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
 		if (format[a] == '%')
 		{
 			if (format[a + 1] == '\0')
-			{	print_bf(buffer, abf), free(buffer), va_end(arguments);
+			{	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
 				return (-1);
 			}
 			else
@@ -33,20 +33,20 @@ int _printf(const char *format, ...)
 				{
 					if (format[a + 1] == ' ' && !format[a + 2])
 						return (-1);
-					handl_bf(buffer, format[a], abf), len++, a--;
+					handl_buf(buffer, format[a], ibuf), len++, a--;
 				}
 				else
 				{
-					len = len + function(arguments, buffer, abf);
+					len = len + function(arguments, buffer, ibuf);
 					a = a + ev_print_func(format, a + 1);
 				}
 			} a++;
 		}
 		else
-			handl_bf(buffer, format[a], abf), len++;
-		for (abf = len; abf > 1024; abf -= 1024)
+			handl_buf(buffer, format[a], ibuf), len++;
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
 			;
 	}
-	print_bf(buffer, abf), free(buffer), va_end(arguments);
+	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
 	return (len);
 }
