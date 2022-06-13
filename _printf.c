@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
 		if (format[a] == '%')
 		{
 			if (format[a + 1] == '\0')
-			{	print_buf(buffer, abf), free(buffer), va_end(arguments);
+			{	print_bf(buffer, abf), free(buffer), va_end(arguments);
 				return (-1);
 			}
 			else
@@ -33,20 +33,20 @@ int _printf(const char *format, ...)
 				{
 					if (format[a + 1] == ' ' && !format[a + 2])
 						return (-1);
-					handl_buf(buffer, format[a], abf), len++, a--;
+					handl_bf(buffer, format[a], abf), len++, a--;
 				}
 				else
 				{
-					len += function(arguments, buffer, abf);
-					a += ev_print_func(format, a + 1);
+					len = len + function(arguments, buffer, abf);
+					a = a + ev_print_func(format, a + 1);
 				}
 			} a++;
 		}
 		else
-			handl_buf(buffer, format[a], abf), len++;
+			handl_bf(buffer, format[a], abf), len++;
 		for (abf = len; abf > 1024; abf -= 1024)
 			;
 	}
-	print_buf(buffer, abf), free(buffer), va_end(arguments);
+	print_bf(buffer, abf), free(buffer), va_end(arguments);
 	return (len);
 }
