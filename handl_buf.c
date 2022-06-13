@@ -13,7 +13,7 @@ unsigned int handl_buf(char *buf, char c, unsigned int ibuf)
 {
 	if (ibuf == 1024)
 	{
-		print_buf(buf, ibuf);
+		_putchar(buf, ibuf);
 		ibuf = 0;
 	}
 	buf[ibuf] = c;
